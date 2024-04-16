@@ -1,4 +1,4 @@
-# FTP-Mass-Anonymous-Login-Checker
+# FTP Mass Anonymous Login Checker
 
 This is a simple Go program to perform anonymous FTP login to a list of hosts, retrieve their geo-location information, and store the results in a file.
 
