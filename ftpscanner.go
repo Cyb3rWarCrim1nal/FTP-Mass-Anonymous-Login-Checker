@@ -167,14 +167,32 @@ func main() {
 		if result.Success {
 			// Handle successful login
 			fmt.Printf("[+] %s FTP Anonymous Login Succeeded.\n", result.Host)
-			// Display location information only for successful connections
-			geoInfo, err := getGeoInfo(result.Host)
-			if err != nil {
-				fmt.Printf("Failed to get geo information for IP %s: %v\n", result.Host, err)
-				continue
+
+			if net.ParseIP(result.Host) == nil {
+				// If it's a hostname, fetch and display the IP, ISP, and Country
+				resolvedIP, err := resolveIP(result.Host)
+				if err != nil {
+					fmt.Printf("Failed to resolve IP for hostname %s: %v\n", result.Host, err)
+				} else {
+					geoInfo, err := getGeoInfo(resolvedIP)
+					if err != nil {
+						fmt.Printf("Failed to get geo information for IP %s: %v\n", resolvedIP, err)
+					} else {
+						fmt.Printf("    IP: %s\n", resolvedIP)
+						fmt.Printf("    ISP: %s\n", geoInfo.ISP)
+						fmt.Printf("    Country: %s\n", geoInfo.Country)
+					}
+				}
+			} else {
+				// If it's an IP address, fetch and display the ISP and Country
+				geoInfo, err := getGeoInfo(result.Host)
+				if err != nil {
+					fmt.Printf("Failed to get geo information for IP %s: %v\n", result.Host, err)
+				} else {
+					fmt.Printf("    ISP: %s\n", geoInfo.ISP)
+					fmt.Printf("    Country: %s\n", geoInfo.Country)
+				}
 			}
-			fmt.Printf("    ISP: %s\n", geoInfo.ISP)
-			fmt.Printf("    Country: %s\n", geoInfo.Country)
 		} else {
 			// Handle failed login
 			fmt.Printf("[-] %s FTP Anonymous Login Failed: %v\n", result.Host, result.ErrorMsg)
