@@ -13,7 +13,7 @@ This is a simple Go program to perform anonymous FTP login to a list of hosts, r
 1. Clone the repository:
 git clone https://github.com/Cyb3rWarCrim1nal/FTP-Mass-Anonymous-Login-Checker.git
 
-2. Install dependencies: go mod tidy
+2. Install dependencies: go mod init github.com/Cyb3rWarCrim1nal/FTP-Mass-Anonymous-Login-Checker
 
 3. Create a `hosts.txt` file containing a list of hostnames or IP addresses, with each entry on a separate line.
 
